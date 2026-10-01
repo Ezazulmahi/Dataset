@@ -15,6 +15,7 @@ and the original result spreadsheets (`results/`); edit the paths at the top of
 | `exp_stats.py` | Cover statistics of the 400 baseline / fine-tuned pairs (`cover_stats.csv`, `elig_maps.npz`) |
 | `exp_embed.py` | Re-embeds all 800 covers with seed-reproducible messages, verifies byte-exact recovery after a PNG round trip, records runtime (`embed_rerun.csv`) |
 | `exp_steg.py` | SPAM + shrinkage LDA steganalysis with subject-grouped five-fold cross-validation, including the S-UNIWARD and LSB-matching references (`steganalysis_spam.csv`, `steganalysis_spam_scores.npz`) |
+| `exp_steg_generic_dct.py`, `gen_dataset.py` | Detector trained only on the generic DCT embedding of `gen_dataset.py` and tested on the DEDS embedder (`steganalysis_generic_dct.csv`) |
 | `gen_timing.py` | Cover-generation time and memory; checks that the stored covers are reproduced by the released weights |
 | `make_figs.py`, `fig_schematic.py`, `fig_examples_selected.py`, `final_numbers.py` | Figures 1-4, Supplementary Fig. S1 and the numbers quoted in the text |
 | `ablation_results.csv` | Loss-weight grid (average K per setting) with links to the generated covers of each setting |

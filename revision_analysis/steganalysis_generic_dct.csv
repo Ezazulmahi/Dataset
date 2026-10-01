@@ -1,0 +1,5 @@
+experiment,PE,PE_sd,AUC,AUC_lo,AUC_hi
+"Generic DCT (5-15% rate), fine-tuned covers (matched detector)",0.068375,0.00589093583397409,1.0,0.9999999999999999,1.0
+"DEDS embedder, fine-tuned covers (detector trained on generic DCT, 5-15% rate)",0.273875,0.005316542579534191,0.999983125,0.999925,1.0
+"Generic DCT (payload-matched), fine-tuned covers (matched detector)",0.040749999999999995,0.004227883631321943,1.0,0.9999999999999999,1.0
+"DEDS embedder, fine-tuned covers (detector trained on generic DCT, payload-matched)",0.25425,0.0034999999999999966,0.9999825,0.9999248437499999,1.0

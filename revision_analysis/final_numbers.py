@@ -50,7 +50,7 @@ print("baseline cover-derived capacity range: %.4f-%.4f ; >=0.30: %d of %d" % (b
 print("fine-tuned capacity >=0.30:", int((f_.capacity_bpp >= 0.30).sum()), " ratio cover-derived means %.1f" % (f_.capacity_bpp.mean() / b_.capacity_bpp[~b_.fallback].mean()))
 
 # ------------------------------------------------------------------ detectability rows
-st = pd.read_csv("steganalysis_spam.csv"); print(st[["experiment", "PE", "AUC", "AUC_lo", "AUC_hi"]].round(3).to_string())
+st = pd.concat([pd.read_csv("steganalysis_spam.csv"), pd.read_csv("steganalysis_generic_dct.csv")], ignore_index=True); print(st[["experiment", "PE", "AUC", "AUC_lo", "AUC_hi"]].round(3).to_string())
 s = pd.read_excel(C.RES + r"\steganalysis_results.xlsx", sheet_name="per_image_detection")
 y = np.r_[np.zeros(len(s)), np.ones(len(s))]; sc = np.r_[s.cover_pct_stego, s.stego_pct_stego] / 100
 fpr, tpr, _ = roc_curve(y, sc); pe_cnn = ((fpr + 1 - tpr) / 2).min(); auc_cnn = roc_auc_score(y, sc)
@@ -66,6 +66,7 @@ spec = [("DEDS embedder, fine-tuned covers (matched detector)", "DEDS", "fine-tu
         ("DEDS embedder, baseline covers (matched detector)", "DEDS", "baseline", "SPAM (DEDS, same source)"),
         ("DEDS embedder, fine-tuned covers (detector trained on S-UNIWARD)", "DEDS", "fine-tuned", "SPAM (S-UNIWARD, same source)"),
         ("DEDS embedder, fine-tuned covers (detector trained on LSB matching)", "DEDS", "fine-tuned", "SPAM (LSB matching, same source)"),
+        ("DEDS embedder, fine-tuned covers (detector trained on generic DCT, 5-15% rate)", "DEDS", "fine-tuned", "SPAM (generic DCT LSB, same source)"),
         ("S-UNIWARD, fine-tuned covers (matched detector)", "S-UNIWARD", "fine-tuned", "SPAM (S-UNIWARD, same source)"),
         ("S-UNIWARD, baseline covers (matched detector)", "S-UNIWARD", "baseline", "SPAM (S-UNIWARD, same source)"),
         ("LSB matching, fine-tuned covers (matched detector)", "LSB matching", "fine-tuned", "SPAM (LSB matching, same source)"),
@@ -73,7 +74,7 @@ spec = [("DEDS embedder, fine-tuned covers (matched detector)", "DEDS", "fine-tu
 for key, emb, cov, det in spec:
     if (st.experiment == key).any():
         r = g(key); rows.append(row(emb, cov, det, r.PE, r.AUC, r.AUC_lo, r.AUC_hi))
-    if key.startswith("DEDS embedder, fine-tuned covers (detector trained on LSB"):
+    if key.startswith("DEDS embedder, fine-tuned covers (detector trained on generic DCT"):
         rows.append("\\midrule")
 open("table3_rows.tex", "w", encoding="utf-8").write("\n".join(rows) + "\n")
 tex = open("../main.tex", encoding="utf-8").read()

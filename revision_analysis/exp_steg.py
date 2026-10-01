@@ -69,30 +69,32 @@ def run(cover, stego_train, stego_test, reps=10, folds=5, seed=0):
     return {"PE": np.mean(pes), "PE_sd": np.std(pes), "AUC": np.mean(aucs), "AUC_lo": np.percentile(bs, 2.5),
             "AUC_hi": np.percentile(bs, 97.5), "oof_c": oof_c, "oof_s": oof_s}
 
-exps = [
-    ("DEDS embedder, fine-tuned covers (matched detector)", "ft_cover", "ft_deds", "ft_deds"),
-    ("S-UNIWARD, fine-tuned covers (matched detector)", "ft_cover", "ft_suni", "ft_suni"),
-    ("LSB matching, fine-tuned covers (matched detector)", "ft_cover", "ft_lsbm", "ft_lsbm"),
-    ("S-UNIWARD, baseline covers (matched detector)", "bs_cover", "bs_suni", "bs_suni"),
-    ("LSB matching, baseline covers (matched detector)", "bs_cover", "bs_lsbm", "bs_lsbm"),
-    ("DEDS embedder, fine-tuned covers (detector trained on S-UNIWARD)", "ft_cover", "ft_suni", "ft_deds"),
-    ("DEDS embedder, fine-tuned covers (detector trained on LSB matching)", "ft_cover", "ft_lsbm", "ft_deds"),
-]
-if "bs_deds" in F:
-    exps.insert(1, ("DEDS embedder, baseline covers (matched detector)", "bs_cover", "bs_deds", "bs_deds"))
-if "ft_deds_rerun" in F:
-    exps.insert(1, ("DEDS embedder, fine-tuned covers, re-embedded (matched detector)", "ft_cover", "ft_deds_rerun", "ft_deds_rerun"))
-rows = []; scores = {}
-edges = [0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.6001]
-for name, c, st, se in exps:
-    r = run(F[c], F[st], F[se])
-    row = {"experiment": name, "PE": r["PE"], "PE_sd": r["PE_sd"], "AUC": r["AUC"], "AUC_lo": r["AUC_lo"], "AUC_hi": r["AUC_hi"]}
-    for a, b in zip(edges[:-1], edges[1:]):
-        s = (bpp >= a) & (bpp < b)
-        row[f"AUC_{a:.2f}"] = roc_auc_score(np.r_[np.zeros(s.sum()), np.ones(s.sum())], np.r_[r["oof_c"][s], r["oof_s"][s]])
-    rows.append(row); scores[name] = (r["oof_c"], r["oof_s"])
-    print(f"{name:75s} PE={r['PE']:.3f}±{r['PE_sd']:.3f}  AUC={r['AUC']:.3f} [{r['AUC_lo']:.3f},{r['AUC_hi']:.3f}]", flush=True)
-pd.DataFrame(rows).to_csv("steganalysis_spam.csv", index=False)
-np.savez("steganalysis_spam_scores.npz", **{f"e{i}_{k}": v for i, (n, cs) in enumerate(scores.items()) for k, v in zip("cs", cs)},
-         names=np.array(list(scores.keys())), bpp=bpp)
-print(pd.DataFrame(rows).drop(columns=["experiment"]).round(3).to_string())
+if __name__ == "__main__":
+    exps = [
+        ("DEDS embedder, fine-tuned covers (matched detector)", "ft_cover", "ft_deds", "ft_deds"),
+        ("S-UNIWARD, fine-tuned covers (matched detector)", "ft_cover", "ft_suni", "ft_suni"),
+        ("LSB matching, fine-tuned covers (matched detector)", "ft_cover", "ft_lsbm", "ft_lsbm"),
+        ("S-UNIWARD, baseline covers (matched detector)", "bs_cover", "bs_suni", "bs_suni"),
+        ("LSB matching, baseline covers (matched detector)", "bs_cover", "bs_lsbm", "bs_lsbm"),
+        ("DEDS embedder, fine-tuned covers (detector trained on S-UNIWARD)", "ft_cover", "ft_suni", "ft_deds"),
+        ("DEDS embedder, fine-tuned covers (detector trained on LSB matching)", "ft_cover", "ft_lsbm", "ft_deds"),
+    ]
+    if "bs_deds" in F:
+        exps.insert(1, ("DEDS embedder, baseline covers (matched detector)", "bs_cover", "bs_deds", "bs_deds"))
+    if "ft_deds_rerun" in F:
+        exps.insert(1, ("DEDS embedder, fine-tuned covers, re-embedded (matched detector)", "ft_cover", "ft_deds_rerun", "ft_deds_rerun"))
+    rows = []; scores = {}
+    edges = [0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.6001]
+    for name, c, st, se in exps:
+        r = run(F[c], F[st], F[se])
+        row = {"experiment": name, "PE": r["PE"], "PE_sd": r["PE_sd"], "AUC": r["AUC"], "AUC_lo": r["AUC_lo"], "AUC_hi": r["AUC_hi"]}
+        for a, b in zip(edges[:-1], edges[1:]):
+            s = (bpp >= a) & (bpp < b)
+            row[f"AUC_{a:.2f}"] = roc_auc_score(np.r_[np.zeros(s.sum()), np.ones(s.sum())], np.r_[r["oof_c"][s], r["oof_s"][s]])
+        rows.append(row); scores[name] = (r["oof_c"], r["oof_s"])
+        print(f"{name:75s} PE={r['PE']:.3f}±{r['PE_sd']:.3f}  AUC={r['AUC']:.3f} [{r['AUC_lo']:.3f},{r['AUC_hi']:.3f}]", flush=True)
+    pd.DataFrame(rows).to_csv("steganalysis_spam.csv", index=False)
+    np.savez("steganalysis_spam_scores.npz", **{f"e{i}_{k}": v for i, (n, cs) in enumerate(scores.items()) for k, v in zip("cs", cs)},
+             names=np.array(list(scores.keys())), bpp=bpp)
+    print(pd.DataFrame(rows).drop(columns=["experiment"]).round(3).to_string())
+
