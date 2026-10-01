@@ -75,3 +75,11 @@ images/
 
 If you use this data, please cite the DEDS paper (see the main pipeline
 repository for the full citation).
+
+## Revision analysis
+
+`revision_analysis/` holds the scripts and result files added for the revised
+manuscript: cover statistics, the re-embedding run that verifies exact recovery
+with known messages, the feature-based (SPAM) steganalysis with the S-UNIWARD
+and LSB-matching references, the loss-weight grid record, and the figure files.
+See `revision_analysis/README.md`.
