@@ -89,3 +89,8 @@ See `revision_analysis/README.md`.
 `universal_dct_steganalyser/` holds the convolutional detector trained from scratch on a universal DCT
 embedding (trained weights, data-generation, training and evaluation scripts, per-image results).
 See `universal_dct_steganalyser/README.md`.
+
+## Repeated-message test
+
+`repeated_message_test/` holds the unchanged embedder with an outer repetition code and the results of the
+processing tests run with it. See `repeated_message_test/README.md`.

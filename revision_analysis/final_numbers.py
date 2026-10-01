@@ -34,7 +34,7 @@ with open("../numbers.tex", "w", encoding="utf-8") as f:
         f.write("\\newcommand{\\%s}{%s}\n" % (k, v))
 print(macros)
 rt = []
-for lab, sel in (("0.30--0.40", lambda d: d[d.bpp < 0.40]), ("0.40--0.50", lambda d: d[(d.bpp >= 0.40) & (d.bpp < 0.50)]), ("0.50--0.60", lambda d: d[d.bpp >= 0.50])):
+for lab, sel in (("0.30 to 0.40", lambda d: d[d.bpp < 0.40]), ("0.40 to 0.50", lambda d: d[(d.bpp >= 0.40) & (d.bpp < 0.50)]), ("0.50 to 0.60", lambda d: d[d.bpp >= 0.50])):
     for tag, d in (("Fine-tuned", ft), ("Baseline", bs)):
         s = sel(d); rt.append((lab, tag, len(s), s.embed_s.median(), s.embed_s.quantile(.25), s.embed_s.quantile(.75), s.embed_s.max(), s.fix_passes.median(), s.extract_s.median()))
 rt = pd.DataFrame(rt, columns=["bpp", "covers", "n", "embed_med", "q25", "q75", "max", "fix_med", "extract_med"]); rt.to_csv("runtime_table.csv", index=False); print(rt.round(2).to_string())
@@ -62,7 +62,7 @@ def cnn_set(label):
 fpr, tpr, pe_cnn, auc_cnn, cnn_lo, cnn_hi = cnn_set("DEDS on fine-tuned covers")
 fpr_b, tpr_b, pe_cnn_b, auc_cnn_b, cnn_lo_b, cnn_hi_b = cnn_set("DEDS on baseline covers (re-embedding run)")
 def row(emb, cov, det, pe, auc, lo_, hi_):
-    return f"{emb} & {cov} & {det} & {pe:.3f} & {auc:.3f} ({lo_:.3f}--{hi_:.3f}) \\\\"
+    return f"{emb} & {cov} & {det} & {pe:.3f} & {auc:.3f} ({lo_:.3f} to {hi_:.3f}) \\\\"
 g = lambda key: st[st.experiment == key].iloc[0]
 rows = [row("DEDS", "fine-tuned", "CNN (universal DCT, same generators)", pe_cnn, auc_cnn, cnn_lo, cnn_hi),
         row("DEDS", "baseline", "CNN (universal DCT, same generators)", pe_cnn_b, auc_cnn_b, cnn_lo_b, cnn_hi_b)]
