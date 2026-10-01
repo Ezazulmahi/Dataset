@@ -51,17 +51,21 @@ print("fine-tuned capacity >=0.30:", int((f_.capacity_bpp >= 0.30).sum()), " rat
 
 # ------------------------------------------------------------------ detectability rows
 st = pd.concat([pd.read_csv("steganalysis_spam.csv"), pd.read_csv("steganalysis_generic_dct.csv")], ignore_index=True); print(st[["experiment", "PE", "AUC", "AUC_lo", "AUC_hi"]].round(3).to_string())
-s = pd.read_excel(C.RES + r"\steganalysis_results.xlsx", sheet_name="per_image_detection")
-y = np.r_[np.zeros(len(s)), np.ones(len(s))]; sc = np.r_[s.cover_pct_stego, s.stego_pct_stego] / 100
-fpr, tpr, _ = roc_curve(y, sc); pe_cnn = ((fpr + 1 - tpr) / 2).min(); auc_cnn = roc_auc_score(y, sc)
-rng = np.random.default_rng(0); bsamp = []
-for _ in range(2000):
-    ix = rng.integers(0, len(s), len(s)); bsamp.append(roc_auc_score(y, np.r_[s.cover_pct_stego.values[ix], s.stego_pct_stego.values[ix]]))
-cnn_lo, cnn_hi = np.percentile(bsamp, [2.5, 97.5])
+# convolutional detector trained on the universal DCT embedding (F:/Steganalyzer_UniversalDCT)
+UX = "F:/Steganalyzer_UniversalDCT/results/universal_dct_steganalysis_results.xlsx"
+ud = pd.read_excel(UX, sheet_name="per_image_detection"); us = pd.read_excel(UX, sheet_name="batch_summary")
+def cnn_set(label):
+    d = ud[ud.set == label]; a = us[(us.set == label) & (us.bpp_bin == "all")].iloc[0]
+    yy = np.r_[np.zeros(len(d)), np.ones(len(d))]; ss = np.r_[d.cover_p_stego, d.stego_p_stego]
+    f_, t_, _ = roc_curve(yy, ss)
+    return f_, t_, 1 - a.accuracy_at_val_threshold, a.roc_auc, a.roc_auc_ci_low, a.roc_auc_ci_high
+fpr, tpr, pe_cnn, auc_cnn, cnn_lo, cnn_hi = cnn_set("DEDS on fine-tuned covers")
+fpr_b, tpr_b, pe_cnn_b, auc_cnn_b, cnn_lo_b, cnn_hi_b = cnn_set("DEDS on baseline covers (re-embedding run)")
 def row(emb, cov, det, pe, auc, lo_, hi_):
     return f"{emb} & {cov} & {det} & {pe:.3f} & {auc:.3f} ({lo_:.3f}--{hi_:.3f}) \\\\"
 g = lambda key: st[st.experiment == key].iloc[0]
-rows = [row("DEDS", "fine-tuned", "CNN, SRNet-style (DEDS on photographs)", pe_cnn, auc_cnn, cnn_lo, cnn_hi)]
+rows = [row("DEDS", "fine-tuned", "CNN (universal DCT, same generators)", pe_cnn, auc_cnn, cnn_lo, cnn_hi),
+        row("DEDS", "baseline", "CNN (universal DCT, same generators)", pe_cnn_b, auc_cnn_b, cnn_lo_b, cnn_hi_b)]
 spec = [("DEDS embedder, fine-tuned covers (matched detector)", "DEDS", "fine-tuned", "SPAM (DEDS, same source)"),
         ("DEDS embedder, baseline covers (matched detector)", "DEDS", "baseline", "SPAM (DEDS, same source)"),
         ("DEDS embedder, fine-tuned covers (detector trained on S-UNIWARD)", "DEDS", "fine-tuned", "SPAM (S-UNIWARD, same source)"),
@@ -103,12 +107,13 @@ def curve(key, color, ls, lab):
     i = names.index(key); c_, s_ = z[f"e{i}_c"], z[f"e{i}_s"]
     f1, t1, _ = roc_curve(np.r_[np.zeros(len(c_)), np.ones(len(s_))], np.r_[c_, s_]); ax.plot(f1, t1, color=color, ls=ls, lw=1.3, label=lab)
 ax.plot(fpr, tpr, color=INK, lw=1.3, ls="-", label="DEDS | CNN")
+ax.plot(fpr_b, tpr_b, color=BLUE, lw=1.3, ls="-", label="DEDS, baseline covers | CNN")
 curve("DEDS embedder, fine-tuned covers (matched detector)", ORANGE, "-", "DEDS | SPAM (DEDS)")
 curve("DEDS embedder, fine-tuned covers (detector trained on S-UNIWARD)", ORANGE, "--", "DEDS | SPAM (S-UNIWARD)")
 curve("DEDS embedder, fine-tuned covers (detector trained on LSB matching)", ORANGE, ":", "DEDS | SPAM (LSB matching)")
 curve("S-UNIWARD, fine-tuned covers (matched detector)", AQUA, "-", "S-UNIWARD | SPAM (S-UNIWARD)")
 ax.plot([0, 1], [0, 1], color="#9aa3ab", lw=0.7, ls=(0, (2, 2)))
 ax.set_xlabel("false-positive rate"); ax.set_ylabel("true-positive rate"); ax.set_xlim(0, 1); ax.set_ylim(0, 1.005)
-ax.grid(color=GRID, lw=0.5); ax.set_axisbelow(True); ax.set_title("c", loc="left", fontsize=8.5, fontweight="bold"); ax.legend(fontsize=5.4, loc="lower right", handlelength=1.8, borderaxespad=0.4, labelspacing=0.3, title="embedder | detector (trained on)", title_fontsize=5.4)
+ax.grid(color=GRID, lw=0.5); ax.set_axisbelow(True); ax.set_title("c", loc="left", fontsize=8.5, fontweight="bold"); ax.legend(fontsize=5.2, loc="lower right", handlelength=1.8, borderaxespad=0.4, labelspacing=0.3, title="embedder | detector (trained on)", title_fontsize=5.2)
 fig.savefig("../figures/fig4_distortion_detectability.pdf", bbox_inches="tight"); fig.savefig("fig4.png", dpi=160, bbox_inches="tight")
 print("done")

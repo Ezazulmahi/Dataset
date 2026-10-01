@@ -83,3 +83,9 @@ manuscript: cover statistics, the re-embedding run that verifies exact recovery
 with known messages, the feature-based (SPAM) steganalysis with the S-UNIWARD
 and LSB-matching references, the loss-weight grid record, and the figure files.
 See `revision_analysis/README.md`.
+
+## Universal-DCT steganalyser
+
+`universal_dct_steganalyser/` holds the convolutional detector trained from scratch on a universal DCT
+embedding (trained weights, data-generation, training and evaluation scripts, per-image results).
+See `universal_dct_steganalyser/README.md`.
