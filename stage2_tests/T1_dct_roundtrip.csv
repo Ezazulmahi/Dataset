@@ -1,0 +1,9 @@
+image,max_abs_error_float,uint8_identical,parseval_holds
+constant 128,0.0,True,True
+constant 0,2.842170943040401e-14,True,True
+constant 255,2.842170943040401e-14,True,True
+impulse,5.684341886080802e-14,True,True
+horizontal gradient,5.684341886080802e-14,True,True
+vertical gradient,5.684341886080802e-14,True,True
+checkerboard,5.684341886080802e-14,True,True
+random,7.105427357601002e-14,True,True

@@ -1,0 +1,58 @@
+== T1 DCT / inverse DCT round trip
+              image  max_abs_error_float  uint8_identical  parseval_holds
+       constant 128         0.000000e+00             True            True
+         constant 0         2.842171e-14             True            True
+       constant 255         2.842171e-14             True            True
+            impulse         5.684342e-14             True            True
+horizontal gradient         5.684342e-14             True            True
+  vertical gradient         5.684342e-14             True            True
+       checkerboard         5.684342e-14             True            True
+             random         7.105427e-14             True            True
+
+== T2 coefficient positions
+payload positions: 39 | DC included: False | min u+v: 6 | max u+v: 14 | positions with u+v<=5: 0 | header positions: 32
+u+v histogram: {6: 3, 7: 8, 8: 7, 9: 6, 10: 5, 11: 4, 12: 3, 13: 2, 14: 1}
+
+== T3 parity rule over q = -5..5, three offsets, both bits, all 39 positions
+cases 2574 | wrong parity 0 | change larger than one step 0 | results with |q'|<2: 468 (zero or +-1 kept or produced)
+
+== T4 payload patterns (five fine-tuned covers, forced K=5, 600 bytes)
+                pattern  exact_of_5
+          all zero bits           5
+0x7F bytes (seven ones)           5
+       alternating 0x55           5
+           random ASCII           5
+               one byte           5
+note: the API accepts text only, so an all-ones byte stream (0xFF) cannot be passed; it is not valid UTF-8.
+
+== T5 limits
+payload exactly at capacity (K=5, 766 bytes): exact recovery True
+one byte over capacity: ValueError raised
+empty message: embed returns an image; extract raises ValueError: Header payload_bits=0 outside valid range [1, 6132].  Corrup
+
+== T6 corrupted header / payload
+single flipped header bit accepted in 0 of 64 positions (0 means every single-bit header error is detected)
+random 64-bit headers accepted: 0 of 200000 (expected 2^-30 each)
+single flipped payload bit (400 trials): {'wrong text returned silently': 346, 'UTF-8 error raised': 54} -> the payload itself carries no checksum
+
+== T7 extract() on 800 clean covers (false positives)
+covers reported as containing a message: 0 of 800
+
+== T8 headers of the 400 original stego images against comparison_results.xlsx
+header valid 400/400 | length matches spreadsheet 400/400 | K matches 400/400 | decoded text entirely in the message alphabet 400/400
+
+== T9 unusual inputs
+250x250 input: exact True | untouched border pixels identical: False
+greyscale PNG (read by OpenCV as 3 channels): exact True
+RGBA PNG read with cv2.imread default -> shape (256, 256, 3) (alpha dropped silently)
+2-D array passed directly: error
+
+== T10 subject-level statistics (40 prompt subjects)
+eligible count, subject means: base 1.52 ft 16.51 | Wilcoxon n=40 p=1.82e-12 | ft>base in 40/40
+SSIM subject means: diff 0.0778 | p=1.82e-12 | ft>base in 40/40
+PSNR subject means: diff 0.084 dB | p=0.014
+PSNR payload < 0.45: subjects 40 | diff 0.384 dB | p=6.00e-11
+PSNR payload >= 0.50: subjects 40 | diff -0.337 dB | p=2.69e-08
+CNN (universal DCT), fine-tuned covers: AUC 0.859 | image-level CI 0.832-0.886 | subject-clustered CI 0.831-0.887
+SPAM | S-UNIWARD, fine-tuned covers (matched detector): AUC 0.891 | subject-clustered CI 0.870-0.912
+SPAM | DEDS embedder, fine-tuned covers (detector trained on S-UNIWARD): AUC 0.867 | subject-clustered CI 0.816-0.917

@@ -1,0 +1,20 @@
+T11 - random-bit versus ASCII payloads, 50 fine-tuned covers (every eighth image), same K and length
+
+SPAM-686 + LDA trained on ASCII DEDS pairs, test subjects held out (mean over 10 repetitions)
+auc_ascii                1.0000
+auc_random               1.0000
+pe_ascii                 0.0000
+pe_random                0.0000
+mean_score_ascii       295.5584
+mean_score_random      294.3634
+auc_random_vs_ascii      0.4926
+
+Universal-DCT CNN (threshold from training 0.9966)
+AUC cover vs ASCII stego  0.8524
+AUC cover vs random stego 0.8628
+flagged at trained threshold: cover 0, ASCII 0, random 0 of 50
+flagged at 0.5:               cover 0, ASCII 0, random 0 of 50
+mean P(stego): cover 0.0000, ASCII 0.0089, random 0.0174
+paired Wilcoxon P(stego) ASCII vs random: p = 0.432
+
+Luminance PSNR: ASCII 33.355 dB, random 33.351 dB, mean paired difference -0.003 dB, Wilcoxon p = 0.579

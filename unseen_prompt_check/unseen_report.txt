@@ -1,0 +1,24 @@
+== cover statistics, 200 unseen-prompt pairs (20 subjects not in the prompt bank, not texture close-ups)
+eligible coefficients per block: baseline 1.66 +/- 1.82, fine-tuned 16.89 +/- 2.83; fine-tuned higher in 200 of 200; Wilcoxon p = 1.4e-34
+baseline covers on the fallback K: 98; cover-derived capacity: baseline without fallback 0.065 bpp (n = 102), fine-tuned 0.396 bpp; fine-tuned covers with capacity >= 0.30 bpp: 181
+
+== embedding at 0.30 to 0.60 bpp (forced K, same message on both covers)
+errors: 0; exact recovery fine-tuned 200 of 200, baseline 200 of 200
+forced K above the cover-derived K: fine-tuned 137, baseline 171 of 200
+         bpp  n  psnr_base  psnr_ft  d_psnr  p_psnr  ssim_base  ssim_ft  d_ssim
+0.30 to 0.35 23    35.3208  35.7824  0.4616  0.0054     0.9467   0.9960  0.0493
+0.35 to 0.40 37    34.3932  34.4956  0.1024  0.2486     0.9303   0.9942  0.0639
+0.40 to 0.45 39    33.3623  33.3682  0.0059  0.6437     0.9197   0.9917  0.0719
+0.45 to 0.50 37    32.7807  32.5092 -0.2715  0.2947     0.9059   0.9893  0.0834
+0.50 to 0.55 34    31.8493  31.5424 -0.3068  0.1383     0.8772   0.9875  0.1103
+0.55 to 0.60 30    30.9710  30.7379 -0.2331  0.3599     0.8874   0.9873  0.1000
+overall luminance SSIM: fine-tuned 0.991, baseline 0.910; fine-tuned higher in 200 of 200
+
+== universal-DCT CNN (trained threshold 0.9966), no retraining
+ft   AUC 0.871 (95% CI 0.826 to 0.909), P_E 0.137 | stego flagged at trained threshold 0, at 0.5 0 of 200 | covers flagged 0, 0
+base AUC 0.999 (95% CI 0.995 to 1.000), P_E 0.007 | stego flagged at trained threshold 157, at 0.5 189 of 200 | covers flagged 0, 0
+
+== SPAM-686 + LDA
+trained on the 400 original fine-tuned pairs, tested on the 200 new fine-tuned pairs: AUC 1.000, P_E 0.000, error at the trained decision boundary 0.005
+matched, fine-tuned new pairs, subject-grouped CV: AUC 1.000, P_E 0.002
+matched, baseline new pairs, subject-grouped CV: AUC 1.000, P_E 0.000

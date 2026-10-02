@@ -1,0 +1,2 @@
+baseline_vs_finetuned 271.0351
+finetuned_vs_stego 4.8768

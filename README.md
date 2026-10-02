@@ -94,3 +94,8 @@ See `universal_dct_steganalyser/README.md`.
 
 `repeated_message_test/` holds the unchanged embedder with an outer repetition code and the results of the
 processing tests run with it. See `repeated_message_test/README.md`.
+
+## Additional checks (October 2026)
+
+- `stage2_tests/`: code audit tests T1 to T11 on the unchanged embedder (`stage2_report.txt`), the random bits versus ASCII message test (`t11_report.txt`) and the FID recomputation (`fid_recompute.txt`).
+- `unseen_prompt_check/`: 200 cover pairs from 20 subjects outside the evaluation prompt bank, with generation, embedding and analysis scripts and per image results (`unseen_report.txt`). The images can be regenerated from `01_generate.py` (seeds 200000 + index).
