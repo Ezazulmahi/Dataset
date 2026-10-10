@@ -1,0 +1,165 @@
+== A. COVER STATISTICS, n = 1000 pairs
+energy ratio 3<=u+v<=10: base 0.051 +/- 0.030 | ft 0.354 +/- 0.066 | first 400: base 0.051 ft 0.352 (manuscript 0.051, 0.352)
+eligible per block: base 1.569 +/- 1.400 | ft 16.641 +/- 2.599
+  median (range): base 1.17 (0.00 to 10.75) | ft 16.68 (6.74 to 24.81)
+  ft > base in 1000 of 1000 pairs; Wilcoxon p = 3.33e-165; CV base 0.89 ft 0.16
+fallback covers: base 434, ft 0
+K all: base 11.880 +/- 10.740 | ft 23.923 +/- 3.938
+K cover-derived: base 2.587 +/- 2.142 (n=566) | ft 23.923 +/- 3.938
+capacity bpp all: base 0.201 +/- 0.167 | ft 0.389 +/- 0.061 | bits base 13163 ft 25471
+capacity bpp cover-derived: base 0.056 +/- 0.033 range 0.031 to 0.250 | ft range 0.156 to 0.577
+capacity >= 0.30: base cover-derived 0 of 566 | ft 924 of 1000 ; ratio of cover-derived means 6.9
+  [original 400] eligible base 1.52 ft 16.51 | fallback base 167 | ft capacity 0.386, >=0.30: 363 of 400 | base cover-derived capacity 0.053 (n=233)
+  [expansion 600] eligible base 1.60 ft 16.73 | fallback base 267 | ft capacity 0.391, >=0.30: 561 of 600 | base cover-derived capacity 0.058 (n=333)
+eligibility map, baseline: max over M 0.166
+[[  nan   nan   nan   nan   nan   nan 0.159 0.048]
+ [  nan   nan   nan   nan   nan 0.166 0.064 0.03 ]
+ [  nan   nan   nan   nan   nan 0.115 0.035 0.021]
+ [  nan   nan   nan   nan 0.159 0.035 0.015 0.012]
+ [  nan   nan   nan 0.14  0.056 0.011 0.005 0.005]
+ [  nan   nan 0.116 0.061 0.019 0.005 0.002 0.002]
+ [0.154 0.038 0.027 0.011 0.004 0.002 0.001 0.001]
+ [0.035 0.006 0.003 0.002 0.001 0.001 0.    0.   ]]
+eligibility map, fine-tuned:
+[[  nan   nan   nan   nan   nan   nan 0.666 0.443]
+ [  nan   nan   nan   nan   nan 0.761 0.603 0.48 ]
+ [  nan   nan   nan   nan   nan 0.753 0.558 0.475]
+ [  nan   nan   nan   nan 0.823 0.608 0.478 0.43 ]
+ [  nan   nan   nan 0.798 0.695 0.442 0.326 0.33 ]
+ [  nan   nan 0.737 0.691 0.532 0.352 0.224 0.208]
+ [0.621 0.5   0.51  0.426 0.305 0.193 0.132 0.117]
+ [0.36  0.249 0.203 0.184 0.135 0.13  0.083 0.082]]
+
+== B. CLIP / FID
+                                     0
+FID_baseline_vs_finetuned   238.189865
+CLIP_cosine_mean              0.830035
+CLIP_cosine_std               0.053495
+CLIP_cosine_ci_low            0.826715
+CLIP_cosine_ci_high           0.833354
+n_images_compared          1000.000000
+                                  0
+FID_finetuned_vs_stego     3.609320
+CLIP_cosine_mean           0.999311
+CLIP_cosine_std            0.000728
+CLIP_cosine_ci_low         0.999265
+CLIP_cosine_ci_high        0.999356
+n_images_compared       1000.000000
+CLIP ft vs stego: mean 0.9993 min 0.9921
+  corpus_part  FID_baseline_vs_finetuned  FID_finetuned_vs_stego
+ original 400                    271.035                   4.877
+expansion 600                    252.471                   4.301
+     all 1000                    238.190                   3.609
+
+== C. MATCHED PAYLOAD, n = 1000
+achieved bpp min 0.300 mean 0.447 max 0.600 | n_bits 19680 to 39304 | K 19 to 38
+forced K > adaptive K: fine-tuned 688 of 1000 (first 400: 273)
+0.30 to 0.35  n= 177 PSNR base 35.33 ft 35.86 d +0.53 p 2.55e-24 r +0.88 | SSIM base 0.942 ft 0.995 d +0.053 p 8.49e-31 r +1.00 | ft SSIM higher in 177
+0.35 to 0.40  n= 153 PSNR base 34.19 ft 34.50 d +0.32 p 5.31e-11 r +0.61 | SSIM base 0.929 ft 0.993 d +0.063 p 7.39e-27 r +1.00 | ft SSIM higher in 153
+0.40 to 0.45  n= 180 PSNR base 33.21 ft 33.36 d +0.16 p 0.000112 r +0.33 | SSIM base 0.915 ft 0.991 d +0.076 p 2.73e-31 r +1.00 | ft SSIM higher in 180
+0.45 to 0.50  n= 160 PSNR base 32.55 ft 32.62 d +0.07 p 0.0464 r +0.18 | SSIM base 0.905 ft 0.989 d +0.084 p 5.24e-28 r +1.00 | ft SSIM higher in 160
+0.50 to 0.55  n= 181 PSNR base 31.69 ft 31.48 d -0.21 p 2.61e-08 r -0.48 | SSIM base 0.889 ft 0.987 d +0.098 p 1.87e-31 r +1.00 | ft SSIM higher in 181
+0.55 to 0.60  n= 149 PSNR base 31.04 ft 30.65 d -0.39 p 8.28e-15 r -0.73 | SSIM base 0.872 ft 0.984 d +0.112 p 3.36e-26 r +1.00 | ft SSIM higher in 149
+All           n=1000 PSNR base 33.03 ft 33.12 d +0.08 p 3.88e-06 r +0.17 | SSIM base 0.909 ft 0.990 d +0.081 p 3.33e-165 r +1.00 | ft SSIM higher in 1000
+TABLE 2 ROWS:
+0.30 to 0.35 & 177 & 35.33 & 35.86 & $+0.53$ & $2.5\times10^{-24}$ ($+0.88$) & 0.942 & 0.995 & $+0.053$ & $8.5\times10^{-31}$ \\
+0.35 to 0.40 & 153 & 34.19 & 34.50 & $+0.32$ & $5.3\times10^{-11}$ ($+0.61$) & 0.929 & 0.993 & $+0.063$ & $7.4\times10^{-27}$ \\
+0.40 to 0.45 & 180 & 33.21 & 33.36 & $+0.16$ & $1.1\times10^{-4}$ ($+0.33$) & 0.915 & 0.991 & $+0.076$ & $2.7\times10^{-31}$ \\
+0.45 to 0.50 & 160 & 32.55 & 32.62 & $+0.07$ & 0.046 ($+0.18$) & 0.905 & 0.989 & $+0.084$ & $5.2\times10^{-28}$ \\
+0.50 to 0.55 & 181 & 31.69 & 31.48 & $-0.21$ & $2.6\times10^{-8}$ ($-0.48$) & 0.889 & 0.987 & $+0.098$ & $1.9\times10^{-31}$ \\
+0.55 to 0.60 & 149 & 31.04 & 30.65 & $-0.39$ & $8.3\times10^{-15}$ ($-0.73$) & 0.872 & 0.984 & $+0.112$ & $3.4\times10^{-26}$ \\
+\midrule
+All & 1{,}000 & 33.03 & 33.12 & $+0.08$ & $3.9\times10^{-6}$ & 0.909 & 0.990 & $+0.081$ & $3.3\times10^{-165}$ \\
+SSIM ft 0.990 +/- 0.009 range 0.934 to 0.999 | base 0.909 +/- 0.055 range 0.650 to 0.993
+PSNR ft range 29.9 to 36.8 | mean delta +0.085
+  [expansion 600] dPSNR +0.085 dSSIM +0.082 | SSIM ft 0.990 base 0.908 | PSNR ft 33.12 base 33.03
+     per-bin dPSNR: +0.50 +0.28 +0.14 +0.09 -0.15 -0.38 | dSSIM: +0.055 +0.071 +0.079 +0.085 +0.095 +0.111
+  [original 400] dPSNR +0.084 dSSIM +0.078 | SSIM ft 0.990 base 0.912 | PSNR ft 33.11 base 33.03
+     per-bin dPSNR: +0.58 +0.36 +0.18 +0.04 -0.28 -0.41 | dSSIM: +0.051 +0.054 +0.071 +0.082 +0.100 +0.112
+pooled <0.45: dPSNR +0.334 p 7.09e-36 | >=0.50: dPSNR -0.291 p 3.23e-21
+
+== D. RECOVERY AND RUNTIME (re-embedding run for 0-399, expansion run for 400-999)
+exact: ft 1000 of 1000, base 1000 of 1000 | errors: []
+fix passes: ft median 7 max 17 | base median 7 max 17
+colour PSNR: ft 32.156 +/- 2.163 | base 31.514 +/- 2.395
+embed time ft median: 0.30-0.40 15 s, >=0.50 79 s | extraction median 0.12 s
+  [expansion 600] exact ft 600 base 600 | embed median ft 38 s base 45 s
+  [original 400 (re-embedding run)] exact ft 400 base 400 | embed median ft 40 s base 35 s
+
+== E. PROCESSING TESTS, half-capacity run, n = 1000 covers
+payload n_bits 5104 to 18904 | K 9 to 36 | rows with error: 3000 (['jpeg_customQ_QF90', 'jpeg_customQ_QF70', 'jpeg_customQ_QF50'])
+                           n  bit_accuracy  header   exact
+distortion                                                
+none                    1000        1.0000  1000.0  1000.0
+jpeg_standard_QF90      1000        0.7268     0.0     0.0
+jpeg_standard_QF70      1000        0.4740     0.0     0.0
+jpeg_standard_QF50      1000        0.5079     0.0     0.0
+resize_0.90x            1000        0.5017     0.0     0.0
+resize_0.75x            1000        0.4989     0.0     0.0
+resize_0.50x            1000        0.5017     0.0     0.0
+gaussian_noise_sigma5   1000        0.7913     4.0     0.0
+gaussian_noise_sigma10  1000        0.5668     0.0     0.0
+gaussian_noise_sigma15  1000        0.5084     0.0     0.0
+gaussian_blur_mild      1000        0.4401     0.0     0.0
+crop_mild_5pct          1000        0.5003     0.0     0.0
+own-table requantisation (repaired implementation), n = 1000 covers
+                 n  bit_accuracy  header_intact  exact
+condition                                             
+none          1000        1.0000           1000   1000
+customQ_QF90  1000        0.9902            519      0
+customQ_QF70  1000        0.9619            104      0
+customQ_QF50  1000        0.9994            988     20
+additional tests (newrobust.py):
+       test_type                       condition  n_images  exact_match_rate  ber_mean  ber_std  ber_ci_low  ber_ci_high
+     adversarial                adversarial_eps1      1000                 0         1        0           1            1
+     adversarial                adversarial_eps2      1000                 0         1        0           1            1
+     adversarial                adversarial_eps4      1000                 0         1        0           1            1
+     adversarial                adversarial_eps8      1000                 0         1        0           1            1
+       alignment                    crop_pad_2px      1000                 0         1        0           1            1
+       alignment                     rotate_1deg      1000                 0         1        0           1            1
+       alignment                       shift_1px      1000                 0         1        0           1            1
+       alignment                       shift_2px      1000                 0         1        0           1            1
+ custom_q_attack                 custom_q_attack      1000                 0         1        0           1            1
+custom_q_control                           clean      1000                 1         0        0           0            0
+   ecc_simulated adversarial_eps8_with_hamming74      1000                 0         1        0           1            1
+   ecc_simulated  custom_q_attack_with_hamming74      1000                 0         1        0           1            1
+
+== F. DETECTION
+chi-square statistic decreased after embedding in 967 of 1000 pairs
+                      set             bpp_bin  pairs  accuracy_at_val_threshold  roc_auc  P_E_min  stego_flagged_at_val_threshold  stego_flagged_at_0.5  covers_flagged_at_0.5  stego_score_above_cover_frac
+DEDS on fine-tuned covers           0.30-0.35    178                     0.5000   0.9772   0.0758                               0                     0                      0                        1.0000
+DEDS on fine-tuned covers           0.35-0.40    152                     0.5000   0.9509   0.1217                               0                     2                      0                        0.9803
+DEDS on fine-tuned covers           0.40-0.45    182                     0.5000   0.9615   0.0934                               0                     0                      0                        0.9835
+DEDS on fine-tuned covers           0.45-0.50    159                     0.5000   0.9803   0.0660                               0                     0                      0                        0.9874
+DEDS on fine-tuned covers           0.50-0.55    180                     0.5000   0.8081   0.2556                               0                     0                      0                        0.8000
+DEDS on fine-tuned covers           0.55-0.60    149                     0.5000   0.4097   0.4530                               0                     0                      0                        0.3960
+DEDS on fine-tuned covers part: expansion 600    600                     0.5000   0.8463   0.1833                               0                     0                      0                        0.8583
+DEDS on fine-tuned covers  part: original 400    400                     0.5000   0.8590   0.1737                               0                     2                      0                        0.8775
+DEDS on fine-tuned covers                 all   1000                     0.5000   0.8514   0.1800                               0                     2                      0                        0.8660
+  DEDS on baseline covers           0.30-0.35    178                     0.9719   1.0000   0.0000                             168                   177                      0                        1.0000
+  DEDS on baseline covers           0.35-0.40    152                     0.9309   1.0000   0.0000                             131                   151                      0                        1.0000
+  DEDS on baseline covers           0.40-0.45    182                     0.9368   1.0000   0.0000                             159                   179                      0                        1.0000
+  DEDS on baseline covers           0.45-0.50    159                     0.9686   0.9994   0.0063                             149                   157                      0                        1.0000
+  DEDS on baseline covers           0.50-0.55    180                     0.9528   1.0000   0.0000                             163                   178                      0                        1.0000
+  DEDS on baseline covers           0.55-0.60    149                     0.7181   1.0000   0.0034                              65                   139                      0                        1.0000
+  DEDS on baseline covers part: expansion 600    600                     0.9192   0.9998   0.0017                             503                   590                      0                        1.0000
+  DEDS on baseline covers  part: original 400    400                     0.9150   1.0000   0.0025                             332                   391                      0                        1.0000
+  DEDS on baseline covers                 all   1000                     0.9175   0.9999   0.0025                             835                   981                      0                        1.0000
+
+                      set  roc_auc  roc_auc_ci_low  roc_auc_ci_high  roc_auc_ci_low_subject_bootstrap  roc_auc_ci_high_subject_bootstrap
+DEDS on fine-tuned covers   0.8514          0.8331           0.8681                            0.8356                             0.8675
+  DEDS on baseline covers   0.9999          0.9997           1.0000                            0.9997                             1.0000
+                                                         experiment    PE  PE_sd   AUC  AUC_lo  AUC_hi  AUC_0.30  AUC_0.35  AUC_0.40  AUC_0.45  AUC_0.50  AUC_0.55
+                DEDS embedder, fine-tuned covers (matched detector) 0.006  0.001 1.000   1.000   1.000     1.000     1.000     1.000     1.000     1.000     1.000
+                  DEDS embedder, baseline covers (matched detector) 0.002  0.001 1.000   1.000   1.000     1.000     1.000     1.000     1.000     1.000     1.000
+                    S-UNIWARD, fine-tuned covers (matched detector) 0.143  0.004 0.932   0.922   0.943     0.863     0.894     0.934     0.952     0.963     0.976
+                 LSB matching, fine-tuned covers (matched detector) 0.054  0.002 0.984   0.978   0.989     0.978     0.965     0.990     0.985     0.992     0.992
+                      S-UNIWARD, baseline covers (matched detector) 0.182  0.002 0.900   0.888   0.911     0.847     0.876     0.896     0.902     0.945     0.948
+                   LSB matching, baseline covers (matched detector) 0.076  0.006 0.976   0.970   0.981     0.954     0.961     0.984     0.971     0.989     0.992
+   DEDS embedder, fine-tuned covers (detector trained on S-UNIWARD) 0.128  0.006 0.938   0.923   0.952     0.981     0.959     0.951     0.942     0.936     0.917
+DEDS embedder, fine-tuned covers (detector trained on LSB matching) 0.126  0.010 0.956   0.944   0.966     0.984     0.967     0.965     0.949     0.939     0.947
+                                                                         experiment    PE  PE_sd  AUC  AUC_lo  AUC_hi
+                     Generic DCT (5-15% rate), fine-tuned covers (matched detector) 0.013  0.002  1.0     1.0     1.0
+     DEDS embedder, fine-tuned covers (detector trained on generic DCT, 5-15% rate) 0.252  0.003  1.0     1.0     1.0
+                Generic DCT (payload-matched), fine-tuned covers (matched detector) 0.011  0.001  1.0     1.0     1.0
+DEDS embedder, fine-tuned covers (detector trained on generic DCT, payload-matched) 0.277  0.003  1.0     1.0     1.0

@@ -1,0 +1,251 @@
+5.4.6 Detectability against Steganalysis
+
+Detectability was evaluated with the fine-tuned SRNet detector across the achieved BPP range, binned in steps of 0.05 bpp. All images were at 256x256. For each bin we report the per-image detector outputs on a sample of pairs, a batch accuracy test at two operating points, per-class precision, recall and F1 score at both operating points, and a first order chi-square check. We report accuracy and per-class scores both at the model's native 0.5 softmax threshold and at a per-bin recalibrated threshold (chosen by Youden's J statistic on the ROC curve), since the native threshold is not well calibrated for this class balance and, taken alone, understates what the detector's scores actually separate, and can mask asymmetric treatment of the two classes that overall accuracy alone would hide.
+
+--- BPP 0.30-0.35 ---
+
+Table: Per-image steganalysis results, BPP 0.30-0.35 (first 5 of 108 pairs; full results in steganalysis_results.xlsx).
+          Image Cover pred Cover %             Stego %
+        401.png      COVER    80.8                19.2
+401.png (stego)      STEGO    44.5 55.5 (delta +36.3%)
+        402.png      STEGO    39.9                60.1
+402.png (stego)      STEGO    35.5  64.5 (delta +4.4%)
+        403.png      COVER    83.9                16.1
+403.png (stego)      COVER    82.8  17.2 (delta +1.1%)
+        413.png      COVER    80.8                19.2
+413.png (stego)      COVER    65.5 34.5 (delta +15.3%)
+        414.png      COVER    78.1                21.9
+414.png (stego)      COVER    61.7 38.3 (delta +16.4%)
+
+On this sample, the detector classifies the covers as expected, and the stego probability shift relative to the matching cover ranges from 1.1% to 36.3%, with 0 of 5 pairs showing less than a 1.0% shift.
+
+Table: Batch steganalysis accuracy (fine-tuned SRNet), BPP 0.30-0.35.
+ Pairs  Images Accuracy @0.5 Accuracy @best thresh Mean P(stego|cover) Mean P(stego|stego) ROC-AUC                                        Verdict
+   108     216        52.78%      72.22% (t=0.338)               0.299               0.403  0.7537 detectable (model leans toward flagging stego)
+
+Table: Per-class precision, recall and F1, BPP 0.30-0.35.
+           Threshold Class Precision Recall    F1
+        0.5 (native) cover     0.516  0.907 0.658
+        0.5 (native) stego     0.615  0.148 0.239
+0.338 (recalibrated) cover     0.755  0.657 0.703
+0.338 (recalibrated) stego     0.697  0.787 0.739
+
+At BPP 0.30-0.35, the detector reaches 52.78% accuracy at its native 0.5 threshold, rising to 72.22% at the recalibrated threshold of 0.338 (ROC-AUC 0.7537), over 216 images. At the native threshold, stego recall is 0.148 against cover recall of 0.907, which recovers to 0.787 and 0.657 respectively at the recalibrated threshold. Mean stego probability is 0.299 for covers and 0.403 for stego images (delta +0.103). We read this as: detectable (model leans toward flagging stego).
+
+Table: Chi-square statistic, cover vs stego, BPP 0.30-0.35 (first 5 pairs; full results in Excel).
+  Image Cover chi2 Stego chi2     Delta
+401.png    9361.25    2381.92  -6979.33
+402.png    4290.58    1101.84  -3188.74
+403.png   17019.29    4005.86 -13013.43
+413.png   13142.48    3242.63  -9899.85
+414.png    7786.25    1970.01  -5816.24
+
+Across the full 108-pair set at BPP 0.30-0.35, the mean chi-square delta between stego and cover is -4716.57. The statistic is dominated by each cover's own content rather than by embedding, so we take this as consistent with the SRNet result: no systematic first-order signature is introduced by the embedding at this rate.
+
+
+--- BPP 0.35-0.40 ---
+
+Table: Per-image steganalysis results, BPP 0.35-0.40 (first 5 of 84 pairs; full results in steganalysis_results.xlsx).
+          Image Cover pred Cover %             Stego %
+        407.png      COVER    82.6                17.4
+407.png (stego)      COVER    70.4 29.6 (delta +12.2%)
+        411.png      COVER    69.5                30.5
+411.png (stego)      COVER    67.7  32.3 (delta +1.8%)
+        412.png      COVER    84.0                16.0
+412.png (stego)      COVER    69.7 30.3 (delta +14.3%)
+        438.png      COVER    58.2                41.8
+438.png (stego)      COVER    55.6  44.4 (delta +2.6%)
+        439.png      COVER    81.4                18.6
+439.png (stego)      COVER    67.0 33.0 (delta +14.4%)
+
+On this sample, the detector classifies the covers as expected, and the stego probability shift relative to the matching cover ranges from 1.8% to 14.4%, with 0 of 5 pairs showing less than a 1.0% shift.
+
+Table: Batch steganalysis accuracy (fine-tuned SRNet), BPP 0.35-0.40.
+ Pairs  Images Accuracy @0.5 Accuracy @best thresh Mean P(stego|cover) Mean P(stego|stego) ROC-AUC                                        Verdict
+    84     168        52.98%      76.79% (t=0.279)               0.277               0.388  0.7796 detectable (model leans toward flagging stego)
+
+Table: Per-class precision, recall and F1, BPP 0.35-0.40.
+           Threshold Class Precision Recall    F1
+        0.5 (native) cover     0.517  0.929 0.664
+        0.5 (native) stego     0.647  0.131 0.218
+0.279 (recalibrated) cover     0.881  0.619 0.727
+0.279 (recalibrated) stego     0.706  0.917 0.798
+
+At BPP 0.35-0.40, the detector reaches 52.98% accuracy at its native 0.5 threshold, rising to 76.79% at the recalibrated threshold of 0.279 (ROC-AUC 0.7796), over 168 images. At the native threshold, stego recall is 0.131 against cover recall of 0.929, which recovers to 0.917 and 0.619 respectively at the recalibrated threshold. Mean stego probability is 0.277 for covers and 0.388 for stego images (delta +0.111). We read this as: detectable (model leans toward flagging stego).
+
+Table: Chi-square statistic, cover vs stego, BPP 0.35-0.40 (first 5 pairs; full results in Excel).
+  Image Cover chi2 Stego chi2    Delta
+407.png   10940.64    2705.01 -8235.63
+411.png    2603.99    1082.88 -1521.11
+412.png    3417.43    1396.42 -2021.02
+438.png    4628.06    1726.35 -2901.71
+439.png    7345.21    2083.16 -5262.05
+
+Across the full 84-pair set at BPP 0.35-0.40, the mean chi-square delta between stego and cover is -4741.54. The statistic is dominated by each cover's own content rather than by embedding, so we take this as consistent with the SRNet result: no systematic first-order signature is introduced by the embedding at this rate.
+
+
+--- BPP 0.40-0.45 ---
+
+Table: Per-image steganalysis results, BPP 0.40-0.45 (first 5 of 114 pairs; full results in steganalysis_results.xlsx).
+          Image Cover pred Cover %             Stego %
+        404.png      COVER    60.6                39.4
+404.png (stego)      COVER    60.3  39.7 (delta +0.3%)
+        406.png      COVER    67.6                32.4
+406.png (stego)      COVER    63.7  36.3 (delta +3.9%)
+        416.png      COVER    81.6                18.4
+416.png (stego)      COVER    57.6 42.4 (delta +24.0%)
+        417.png      COVER    80.7                19.3
+417.png (stego)      COVER    62.0 38.0 (delta +18.7%)
+        429.png      COVER    82.0                18.0
+429.png (stego)      COVER    61.9 38.1 (delta +20.1%)
+
+On this sample, the detector classifies the covers as expected, and the stego probability shift relative to the matching cover ranges from 0.3% to 24.0%, with 1 of 5 pairs showing less than a 1.0% shift.
+
+Table: Batch steganalysis accuracy (fine-tuned SRNet), BPP 0.40-0.45.
+ Pairs  Images Accuracy @0.5 Accuracy @best thresh Mean P(stego|cover) Mean P(stego|stego) ROC-AUC                                        Verdict
+   114     228        54.82%      71.93% (t=0.326)               0.313               0.411  0.7380 detectable (model leans toward flagging stego)
+
+Table: Per-class precision, recall and F1, BPP 0.40-0.45.
+           Threshold Class Precision Recall    F1
+        0.5 (native) cover     0.528  0.904 0.667
+        0.5 (native) stego     0.667  0.193 0.299
+0.326 (recalibrated) cover     0.791  0.596 0.680
+0.326 (recalibrated) stego     0.676  0.842 0.750
+
+At BPP 0.40-0.45, the detector reaches 54.82% accuracy at its native 0.5 threshold, rising to 71.93% at the recalibrated threshold of 0.326 (ROC-AUC 0.7380), over 228 images. At the native threshold, stego recall is 0.193 against cover recall of 0.904, which recovers to 0.842 and 0.596 respectively at the recalibrated threshold. Mean stego probability is 0.313 for covers and 0.411 for stego images (delta +0.098). We read this as: detectable (model leans toward flagging stego).
+
+Table: Chi-square statistic, cover vs stego, BPP 0.40-0.45 (first 5 pairs; full results in Excel).
+  Image Cover chi2 Stego chi2     Delta
+404.png    9006.62    2109.57  -6897.05
+406.png    5511.18    1692.73  -3818.45
+416.png    4758.14    1415.26  -3342.87
+417.png   17095.29    3179.18 -13916.11
+429.png    6769.11    1810.37  -4958.74
+
+Across the full 114-pair set at BPP 0.40-0.45, the mean chi-square delta between stego and cover is -4321.56. The statistic is dominated by each cover's own content rather than by embedding, so we take this as consistent with the SRNet result: no systematic first-order signature is introduced by the embedding at this rate.
+
+
+--- BPP 0.45-0.50 ---
+
+Table: Per-image steganalysis results, BPP 0.45-0.50 (first 5 of 101 pairs; full results in steganalysis_results.xlsx).
+          Image Cover pred Cover %             Stego %
+        405.png      COVER    86.3                13.7
+405.png (stego)      COVER    77.8  22.2 (delta +8.5%)
+        410.png      COVER    80.4                19.6
+410.png (stego)      COVER    67.4 32.6 (delta +13.0%)
+        423.png      COVER    61.9                38.1
+423.png (stego)      COVER    50.4 49.6 (delta +11.5%)
+        467.png      COVER    59.4                40.6
+467.png (stego)      COVER    59.5  40.5 (delta -0.1%)
+        478.png      COVER    65.5                34.5
+478.png (stego)      COVER    57.0  43.0 (delta +8.5%)
+
+On this sample, the detector classifies the covers as expected, and the stego probability shift relative to the matching cover ranges from -0.1% to 13.0%, with 1 of 5 pairs showing less than a 1.0% shift.
+
+Table: Batch steganalysis accuracy (fine-tuned SRNet), BPP 0.45-0.50.
+ Pairs  Images Accuracy @0.5 Accuracy @best thresh Mean P(stego|cover) Mean P(stego|stego) ROC-AUC                                        Verdict
+   101     202        53.47%      74.75% (t=0.282)               0.310               0.414  0.7573 detectable (model leans toward flagging stego)
+
+Table: Per-class precision, recall and F1, BPP 0.45-0.50.
+           Threshold Class Precision Recall    F1
+        0.5 (native) cover     0.521  0.871 0.652
+        0.5 (native) stego     0.606  0.198 0.299
+0.282 (recalibrated) cover     0.868  0.584 0.698
+0.282 (recalibrated) stego     0.687  0.911 0.783
+
+At BPP 0.45-0.50, the detector reaches 53.47% accuracy at its native 0.5 threshold, rising to 74.75% at the recalibrated threshold of 0.282 (ROC-AUC 0.7573), over 202 images. At the native threshold, stego recall is 0.198 against cover recall of 0.871, which recovers to 0.911 and 0.584 respectively at the recalibrated threshold. Mean stego probability is 0.310 for covers and 0.414 for stego images (delta +0.104). We read this as: detectable (model leans toward flagging stego).
+
+Table: Chi-square statistic, cover vs stego, BPP 0.45-0.50 (first 5 pairs; full results in Excel).
+  Image Cover chi2 Stego chi2     Delta
+405.png   13844.10    2918.26 -10925.83
+410.png   10880.48    2680.99  -8199.49
+423.png    2018.65     984.74  -1033.91
+467.png    1414.87    1194.39   -220.49
+478.png    5901.30    1865.86  -4035.43
+
+Across the full 101-pair set at BPP 0.45-0.50, the mean chi-square delta between stego and cover is -4388.36. The statistic is dominated by each cover's own content rather than by embedding, so we take this as consistent with the SRNet result: no systematic first-order signature is introduced by the embedding at this rate.
+
+
+--- BPP 0.50-0.55 ---
+
+Table: Per-image steganalysis results, BPP 0.50-0.55 (first 5 of 100 pairs; full results in steganalysis_results.xlsx).
+          Image Cover pred Cover %             Stego %
+        400.png      COVER    82.8                17.2
+400.png (stego)      COVER    68.1 31.9 (delta +14.8%)
+        409.png      COVER    61.6                38.4
+409.png (stego)      COVER    54.8  45.2 (delta +6.8%)
+        418.png      COVER    61.3                38.7
+418.png (stego)      COVER    61.9  38.1 (delta -0.6%)
+        420.png      COVER    85.4                14.6
+420.png (stego)      COVER    61.9 38.1 (delta +23.5%)
+        422.png      COVER    79.2                20.8
+422.png (stego)      COVER    60.5 39.5 (delta +18.7%)
+
+On this sample, the detector classifies the covers as expected, and the stego probability shift relative to the matching cover ranges from -0.6% to 23.5%, with 1 of 5 pairs showing less than a 1.0% shift.
+
+Table: Batch steganalysis accuracy (fine-tuned SRNet), BPP 0.50-0.55.
+ Pairs  Images Accuracy @0.5 Accuracy @best thresh Mean P(stego|cover) Mean P(stego|stego) ROC-AUC                                        Verdict
+   100     200        50.00%      80.00% (t=0.286)               0.274               0.386  0.8102 detectable (model leans toward flagging stego)
+
+Table: Per-class precision, recall and F1, BPP 0.50-0.55.
+           Threshold Class Precision Recall    F1
+        0.5 (native) cover     0.500  0.950 0.655
+        0.5 (native) stego     0.500  0.050 0.091
+0.286 (recalibrated) cover     0.905  0.670 0.770
+0.286 (recalibrated) stego     0.738  0.930 0.823
+
+At BPP 0.50-0.55, the detector reaches 50.00% accuracy at its native 0.5 threshold, rising to 80.00% at the recalibrated threshold of 0.286 (ROC-AUC 0.8102), over 200 images. At the native threshold, stego recall is 0.050 against cover recall of 0.950, which recovers to 0.930 and 0.670 respectively at the recalibrated threshold. Mean stego probability is 0.274 for covers and 0.386 for stego images (delta +0.112). We read this as: detectable (model leans toward flagging stego).
+
+Table: Chi-square statistic, cover vs stego, BPP 0.50-0.55 (first 5 pairs; full results in Excel).
+  Image Cover chi2 Stego chi2     Delta
+400.png    5870.30    2220.49  -3649.82
+409.png    1912.13     932.74   -979.39
+418.png    7257.99    2228.82  -5029.18
+420.png   14518.67    3258.47 -11260.21
+422.png    7136.26    1816.07  -5320.19
+
+Across the full 100-pair set at BPP 0.50-0.55, the mean chi-square delta between stego and cover is -5224.25. The statistic is dominated by each cover's own content rather than by embedding, so we take this as consistent with the SRNet result: no systematic first-order signature is introduced by the embedding at this rate.
+
+
+--- BPP 0.55-0.60 ---
+
+Table: Per-image steganalysis results, BPP 0.55-0.60 (first 5 of 93 pairs; full results in steganalysis_results.xlsx).
+          Image Cover pred Cover %             Stego %
+        408.png      COVER    75.7                24.3
+408.png (stego)      COVER    61.5 38.5 (delta +14.2%)
+        415.png      COVER    65.4                34.6
+415.png (stego)      COVER    57.1  42.9 (delta +8.3%)
+        446.png      COVER    70.3                29.7
+446.png (stego)      COVER    67.0  33.0 (delta +3.3%)
+        447.png      COVER    74.4                25.6
+447.png (stego)      COVER    54.7 45.3 (delta +19.7%)
+        454.png      COVER    61.4                38.6
+454.png (stego)      COVER    56.4  43.6 (delta +5.0%)
+
+On this sample, the detector classifies the covers as expected, and the stego probability shift relative to the matching cover ranges from 3.3% to 19.7%, with 0 of 5 pairs showing less than a 1.0% shift.
+
+Table: Batch steganalysis accuracy (fine-tuned SRNet), BPP 0.55-0.60.
+ Pairs  Images Accuracy @0.5 Accuracy @best thresh Mean P(stego|cover) Mean P(stego|stego) ROC-AUC                                        Verdict
+    93     186        51.61%      79.57% (t=0.287)               0.277               0.398  0.8333 detectable (model leans toward flagging stego)
+
+Table: Per-class precision, recall and F1, BPP 0.55-0.60.
+           Threshold Class Precision Recall    F1
+        0.5 (native) cover     0.509  0.946 0.662
+        0.5 (native) stego     0.615  0.086 0.151
+0.287 (recalibrated) cover     0.923  0.645 0.759
+0.287 (recalibrated) stego     0.727  0.946 0.822
+
+At BPP 0.55-0.60, the detector reaches 51.61% accuracy at its native 0.5 threshold, rising to 79.57% at the recalibrated threshold of 0.287 (ROC-AUC 0.8333), over 186 images. At the native threshold, stego recall is 0.086 against cover recall of 0.946, which recovers to 0.946 and 0.645 respectively at the recalibrated threshold. Mean stego probability is 0.277 for covers and 0.398 for stego images (delta +0.120). We read this as: detectable (model leans toward flagging stego).
+
+Table: Chi-square statistic, cover vs stego, BPP 0.55-0.60 (first 5 pairs; full results in Excel).
+  Image Cover chi2 Stego chi2    Delta
+408.png    3534.21    1505.30 -2028.91
+415.png    7879.31    2200.56 -5678.74
+446.png    1863.73    1075.44  -788.28
+447.png    5283.58    1703.03 -3580.54
+454.png    2525.38    1027.15 -1498.23
+
+Across the full 93-pair set at BPP 0.55-0.60, the mean chi-square delta between stego and cover is -5644.60. The statistic is dominated by each cover's own content rather than by embedding, so we take this as consistent with the SRNet result: no systematic first-order signature is introduced by the embedding at this rate.
+
+
+Qualified reading. Across the tested BPP range, the recalibrated-threshold accuracy and ROC-AUC together indicate the fine-tuned SRNet detector does separate cover from stego above chance for these covers, though the detector's own native threshold is not calibrated to reflect this. The per-class precision, recall and F1 scores show whether that separation is shared evenly between the cover and stego classes or concentrated in one of them. The chi-square deltas give no consistent additional evidence of a first-order signature. This does not establish undetectability in general, only that detection performance at the rates tested here is bounded, and depends on the operating threshold chosen.
