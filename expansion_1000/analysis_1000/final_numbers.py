@@ -50,7 +50,7 @@ print("baseline cover-derived capacity range: %.4f-%.4f ; >=0.30: %d of %d" % (b
 print("fine-tuned capacity >=0.30:", int((f_.capacity_bpp >= 0.30).sum()), " ratio cover-derived means %.1f" % (f_.capacity_bpp.mean() / b_.capacity_bpp[~b_.fallback].mean()))
 
 # ------------------------------------------------------------------ detectability rows
-st = pd.concat([pd.read_csv("steganalysis_spam.csv"), pd.read_csv("steganalysis_generic_dct.csv")], ignore_index=True); print(st[["experiment", "PE", "AUC", "AUC_lo", "AUC_hi"]].round(3).to_string())
+st = pd.concat([pd.read_csv("steganalysis_spam.csv"), pd.read_csv("steganalysis_generic_dct.csv"), pd.read_csv("steganalysis_wow.csv")], ignore_index=True); print(st[["experiment", "PE", "AUC", "AUC_lo", "AUC_hi"]].round(3).to_string())
 # convolutional detector trained on the universal DCT embedding (F:/Steganalyzer_UniversalDCT)
 UX = "F:/scirep results/09_expansion_1000/results_1000/universal_dct_steganalysis_results.xlsx"
 ud = pd.read_excel(UX, sheet_name="per_image_detection"); us = pd.read_excel(UX, sheet_name="batch_summary")
@@ -69,10 +69,13 @@ rows = [row("DEDS", "fine-tuned", "CNN (universal DCT, same generators)", pe_cnn
 spec = [("DEDS embedder, fine-tuned covers (matched detector)", "DEDS", "fine-tuned", "SPAM (DEDS, same source)"),
         ("DEDS embedder, baseline covers (matched detector)", "DEDS", "baseline", "SPAM (DEDS, same source)"),
         ("DEDS embedder, fine-tuned covers (detector trained on S-UNIWARD)", "DEDS", "fine-tuned", "SPAM (S-UNIWARD, same source)"),
+        ("DEDS embedder, fine-tuned covers (detector trained on WOW)", "DEDS", "fine-tuned", "SPAM (WOW, same source)"),
         ("DEDS embedder, fine-tuned covers (detector trained on LSB matching)", "DEDS", "fine-tuned", "SPAM (LSB matching, same source)"),
         ("DEDS embedder, fine-tuned covers (detector trained on generic DCT, 5-15% rate)", "DEDS", "fine-tuned", "SPAM (generic DCT LSB, same source)"),
         ("S-UNIWARD, fine-tuned covers (matched detector)", "S-UNIWARD", "fine-tuned", "SPAM (S-UNIWARD, same source)"),
         ("S-UNIWARD, baseline covers (matched detector)", "S-UNIWARD", "baseline", "SPAM (S-UNIWARD, same source)"),
+        ("WOW, fine-tuned covers (matched detector)", "WOW", "fine-tuned", "SPAM (WOW, same source)"),
+        ("WOW, baseline covers (matched detector)", "WOW", "baseline", "SPAM (WOW, same source)"),
         ("LSB matching, fine-tuned covers (matched detector)", "LSB matching", "fine-tuned", "SPAM (LSB matching, same source)"),
         ("LSB matching, baseline covers (matched detector)", "LSB matching", "baseline", "SPAM (LSB matching, same source)")]
 for key, emb, cov, det in spec:
