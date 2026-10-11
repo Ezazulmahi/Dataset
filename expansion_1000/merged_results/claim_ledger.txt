@@ -1,0 +1,40 @@
+ id                 location                               recomputed   status
+C01        Abstract, Table 1                            1.57 -> 16.64 Verified
+C02                 Abstract                   0.056 (n=566) -> 0.389 Verified
+C03                  Results                             1000 of 1000 Verified
+C04                  Results                                 3.3e-165 Verified
+C05                  Table 1                                  434 / 0 Verified
+C06         Table 1, Results                                      924 Verified
+C07                  Results               25471 bits, 0.156 to 0.577 Verified
+C08                  Results                        13163 bits, 0.201 Verified
+C09                  Results                                      688 Verified
+C10                  Results               19680 to 39304; K 19 to 38 Verified
+C11          Results (macro)             ft 1000/1000, base 1000/1000 Verified
+C12          Results (macro) ft median 7 max 17; base median 7 max 17 Verified
+C13          Results (macro)                           32.16 +/- 2.16 Verified
+C14                  Results         0.909 +/- 0.055 (0.650 to 0.993) Verified
+C15                  Results         0.990 +/- 0.009 (0.934 to 0.999) Verified
+C16                  Results                                     1000 Verified
+C17                  Results                             29.9 to 36.8 Verified
+C18                  Results                           +0.068 p=0.046 Verified
+C19                  Results                   0.830 (0.827 to 0.833) Verified
+C20                  Results                                    238.2 Verified
+C21                  Results               0.9993 min 0.9921 FID 3.61 Verified
+C22                  Results                      835 stego, 0 covers Verified
+C23                  Results                                        0 Verified
+C24                  Results                                  2 / 981 Verified
+C25                  Results                   0.851 (0.833 to 0.868) Verified
+C26                  Results                                    0.866 Verified
+C27                  Results                                    0.180 Verified
+C28     Abstract, Discussion                                    83.5% Verified
+C29                  Table 3                       PE 0.006 AUC 1.000 Verified
+C30                  Table 3                       PE 0.128 AUC 0.938 Verified
+C31                  Results                                    0.252 Verified
+C32                  Results                                      967 Verified
+C33         Results, Table 4                       72.7 / 47.4 / 50.8 Verified
+C34         Results, Table 4                                        4 Verified
+C35         Results, Table 4    99.0/96.2/99.9 ; 519/104/988 ; 0/0/20 Verified
+C36      Results, Discussion                                       20 Verified
+C37 Results, Table 4 caption                            5104 to 18904 Verified
+C38           Supp. Table S1                             1000 of 1000 Verified
+C39                  Results                           0.051 -> 0.354 Verified

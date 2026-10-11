@@ -1,0 +1,40 @@
+id,location,manuscript text,recomputed,source,status
+C01,"Abstract, Table 1",from 1.57 to 16.64,1.57 -> 16.64,analysis1000/cover_stats.csv,Verified
+C02,Abstract,from 0.056 (566 baseline covers) to 0.389,0.056 (n=566) -> 0.389,cover_stats.csv,Verified
+C03,Results,"an increase observed in all 1,000 pairs",1000 of 1000,cover_stats.csv,Verified
+C04,Results,$p=3.3\times10^{-165}$,3.3e-165,cover_stats.csv,Verified
+C05,Table 1,"434 of 1,000 & 0 of 1,000",434 / 0,cover_stats.csv,Verified
+C06,"Table 1, Results","924 of 1,000",924,cover_stats.csv,Verified
+C07,Results,"25,471 bits (0.389\bpp; range 0.156 to 0.577)","25471 bits, 0.156 to 0.577",cover_stats.csv,Verified
+C08,Results,"13,163 bits (0.201\bpp)","13163 bits, 0.201",cover_stats.csv,Verified
+C09,Results,"For 688 of the 1,000 fine-tuned covers",688,comparison_results.xlsx + cover_stats.csv,Verified
+C10,Results,"19,680 to 39,304 bits; $K$ from 19 to 38",19680 to 39304; K 19 to 38,comparison_results.xlsx,Verified
+C11,Results (macro),"\newcommand{\RecFT}{1,000 of 1,000}","ft 1000/1000, base 1000/1000",analysis1000/embed_rerun.csv,Verified
+C12,Results (macro),\newcommand{\FixMaxFT}{17},ft median 7 max 17; base median 7 max 17,embed_rerun.csv,Verified
+C13,Results (macro),\newcommand{\PSNRcolFT}{$32.16\pm2.16$},32.16 +/- 2.16,embed_rerun.csv,Verified
+C14,Results,$0.909\pm0.055$ (0.650 to 0.993),0.909 +/- 0.055 (0.650 to 0.993),comparison_results.xlsx,Verified
+C15,Results,SSIM was $0.990\pm0.009$ (range 0.934 to 0.999),0.990 +/- 0.009 (0.934 to 0.999),comparison_results.xlsx,Verified
+C16,Results,"higher in every one of the 1,000 pairs",1000,comparison_results.xlsx,Verified
+C17,Results,"between 29.9 and 36.8\,dB",29.9 to 36.8,comparison_results.xlsx,Verified
+C18,Results,"$+0.07$\,dB at 0.45 to 0.50\bpp{} ($p=0.046$)",+0.068 p=0.046,comparison_results.xlsx,Verified
+C19,Results,is 0.830 (95\% confidence interval 0.827 to 0.833),0.830 (0.827 to 0.833),comparison_results.xlsx FID_CLIP,Verified
+C20,Results,between the two sets is 238,238.2,comparison_results.xlsx FID_CLIP,Verified
+C21,Results,"(CLIP similarity 0.9993, minimum 0.9921; FID 3.6)",0.9993 min 0.9921 FID 3.61,comparison_results.xlsx,Verified
+C22,Results,"flagged 835 of 1,000 stego images and no cover","835 stego, 0 covers",results_1000/universal_dct_steganalysis_results.xlsx,Verified
+C23,Results,"flagged none of the 1,000 DEDS stego images of fine-tuned covers",0,universal_dct_steganalysis_results.xlsx,Verified
+C24,Results,"it flagged 2 of 1,000 fine-tuned and 981 of 1,000",2 / 981,universal_dct_steganalysis_results.xlsx,Verified
+C25,Results,(AUC) of 0.851 (95\% confidence interval 0.833 to 0.868),0.851 (0.833 to 0.868),universal_dct_steganalysis_results.xlsx,Verified
+C26,Results,in 87\% of pairs,0.866,universal_dct_steganalysis_results.xlsx,Verified
+C27,Results,would give $P_\mathrm{E}=0.18$,0.180,universal_dct_steganalysis_results.xlsx,Verified
+C28,"Abstract, Discussion",84\% in baseline covers,83.5%,universal_dct_steganalysis_results.xlsx,Verified
+C29,Table 3,"SPAM (DEDS, same source) & 0.006 & 1.000",PE 0.006 AUC 1.000,analysis1000/steganalysis_spam.csv,Verified
+C30,Table 3,"SPAM (S-UNIWARD, same source) & 0.128 & 0.938",PE 0.128 AUC 0.938,steganalysis_spam.csv,Verified
+C31,Results,does not transfer ($P_\mathrm{E}=0.25$),0.252,steganalysis_generic_dct.csv,Verified
+C32,Results,"decreased after embedding in 967 of 1,000 pairs",967,corpus1000/steganalysis_results.xlsx,Verified
+C33,"Results, Table 4","JPEG, quality 90 / 70 / 50 & 72.7 / 47.4 / 50.8",72.7 / 47.4 / 50.8,corpus1000/robustness_results.xlsx,Verified
+C34,"Results, Table 4","The header survived in 4 of 1,000 images",4,robustness_results.xlsx,Verified
+C35,"Results, Table 4",99.0 / 96.2 / 99.9 & 519 / 104 / 988 & 0 / 0 / 20,99.0/96.2/99.9 ; 519/104/988 ; 0/0/20,results_1000/customq_requantisation_1000.csv,Verified
+C36,"Results, Discussion","only 20 of 1,000 messages were recovered",20,customq_requantisation_1000.csv,Verified
+C37,"Results, Table 4 caption","5,104 to 18,904 bits",5104 to 18904,robustness_results.xlsx,Verified
+C38,Supp. Table S1,"Control & unmodified stego image & 1,000 of 1,000",1000 of 1000,corpus1000/robustness_customQ_adv_ecc_align.xlsx,Verified
+C39,Results,rose from 0.051 to 0.354,0.051 -> 0.354,analysis1000/midratio_*.npy,Verified
