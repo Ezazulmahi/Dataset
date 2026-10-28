@@ -1,0 +1,12 @@
+Clip-loss compensation test (2026-10-17), margin 0.25, forced K and payload of the pilot:
+variant               cover            passes  PSNR_Y  exact
+with compensation     baseline 400     FAIL (112 bits oscillating after 60 passes)
+with compensation     baseline 520     FAIL (15 bits)
+with compensation     finetuned 000    16      33.09   yes
+no compensation       baseline 400     12      30.81   yes
+no compensation       baseline 520     12      31.22   yes
+no compensation       finetuned 000    13      33.21   yes
+capped, passes 3-12   baseline 400     22      30.51   yes
+capped, passes 3-12   baseline 520     16      30.51   yes
+capped, passes 3-12   finetuned 000    20      33.09   yes
+Decision: drop compensation; keep per-slot margin escalation only.

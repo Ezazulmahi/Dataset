@@ -1,0 +1,20 @@
+# Python 3.14.5 environment used for embedding, evaluation, steganalysis and the extra checks (Windows 11, CUDA 12.8).
+# The fine-tuning ran on a separate machine with Python 3.10 or later; its library versions were not recorded.
+torch==2.11.0
+torchvision==0.26.0
+numpy==2.4.4
+scipy==1.17.1
+opencv-python==4.13.0.92
+scikit-image==0.26.0
+scikit-learn==1.9.1
+pandas==3.0.5
+matplotlib==3.10.9
+Pillow==12.2.0
+diffusers==0.39.0
+transformers==5.13.0
+peft==0.19.1
+accelerate==1.14.0
+conseal==2025.11
+sealwatch==2025.9
+jpeglib==1.0.2
+openpyxl==3.1.5

@@ -1,0 +1,90 @@
+V1a synthetic (uniform offsets), E[e^2]/Q^2 measured vs (1/2+mu)^3/3:
+      measured  predicted  rel_error_pct
+mu                                      
+0.05   0.05544    0.05546       -0.03470
+0.10   0.07198    0.07200       -0.03205
+0.15   0.09151    0.09154       -0.03065
+0.25   0.14058    0.14062       -0.03005
+0.35   0.20465    0.20471       -0.02887
+0.50   0.33325    0.33333       -0.02507
+vectorised write == embedder's _parity_write on 2,000 random cases: True
+
+V1b real covers (200 covers, Table 2 payloads, first write pass, coefficient domain):
+  baseline: share of slots with |q|<=1: 0.939
+    mu=0.05: E[e^2]/Q^2 measured 0.0769, uniform-model 0.0555; gain over mu=0.5: measured 6.46 dB, predicted 7.79 dB
+    mu=0.10: E[e^2]/Q^2 measured 0.0960, uniform-model 0.0720; gain over mu=0.5: measured 5.52 dB, predicted 6.66 dB
+    mu=0.15: E[e^2]/Q^2 measured 0.1177, uniform-model 0.0915; gain over mu=0.5: measured 4.67 dB, predicted 5.61 dB
+    mu=0.25: E[e^2]/Q^2 measured 0.1695, uniform-model 0.1406; gain over mu=0.5: measured 3.13 dB, predicted 3.75 dB
+    mu=0.35: E[e^2]/Q^2 measured 0.2337, uniform-model 0.2047; gain over mu=0.5: measured 1.79 dB, predicted 2.12 dB
+    mu=0.50: E[e^2]/Q^2 measured 0.3576, uniform-model 0.3333; gain over mu=0.5: measured 0.00 dB, predicted 0.00 dB
+  finetuned: share of slots with |q|<=1: 0.470
+    mu=0.05: E[e^2]/Q^2 measured 0.0555, uniform-model 0.0555; gain over mu=0.5: measured 7.78 dB, predicted 7.79 dB
+    mu=0.10: E[e^2]/Q^2 measured 0.0721, uniform-model 0.0720; gain over mu=0.5: measured 6.65 dB, predicted 6.66 dB
+    mu=0.15: E[e^2]/Q^2 measured 0.0916, uniform-model 0.0915; gain over mu=0.5: measured 5.61 dB, predicted 5.61 dB
+    mu=0.25: E[e^2]/Q^2 measured 0.1407, uniform-model 0.1406; gain over mu=0.5: measured 3.74 dB, predicted 3.75 dB
+    mu=0.35: E[e^2]/Q^2 measured 0.2047, uniform-model 0.2047; gain over mu=0.5: measured 2.12 dB, predicted 2.12 dB
+    mu=0.50: E[e^2]/Q^2 measured 0.3333, uniform-model 0.3333; gain over mu=0.5: measured 0.00 dB, predicted 0.00 dB
+
+V2 Parseval: max relative difference coefficient vs pixel energy = 4.44e-16
+V3 rounding noise per coefficient: s.d. 0.2880 (theory 1/sqrt(12) = 0.2887)
+
+V4 parity survival after requantisation with the scaled own table (coefficient domain):
+  mu  scale predicted_safe  survival_pct  min_image_pct
+0.15    1.0    0% of slots       100.000        100.000
+0.15    0.6    0% of slots        82.932         73.330
+0.15    0.4    0% of slots        92.671         84.430
+0.15    0.2  100% of slots       100.000        100.000
+0.15    0.1  100% of slots       100.000        100.000
+0.25    1.0    0% of slots       100.000        100.000
+0.25    0.6    0% of slots        98.454         95.688
+0.25    0.4  100% of slots       100.000        100.000
+0.25    0.2  100% of slots       100.000        100.000
+0.25    0.1  100% of slots       100.000        100.000
+0.50    1.0    0% of slots       100.000        100.000
+0.50    0.6  100% of slots       100.000        100.000
+0.50    0.4  100% of slots       100.000        100.000
+0.50    0.2  100% of slots       100.000        100.000
+0.50    0.1  100% of slots       100.000        100.000
+
+V5 single-read accuracy by reliability a (all 200 robust stego images):
+  jpeg_90 :  53.6  60.3  67.0  73.4  79.5  84.8  88.9  91.7  93.5  94.3   (a bins 0-0.1 ... 0.9-1.0)
+  jpeg_95 :  57.7  70.3  78.6  84.5  89.9  94.0  96.7  98.2  99.0  99.3   (a bins 0-0.1 ... 0.9-1.0)
+  noise_10:  52.3  56.8  61.0  65.0  68.4  71.3  73.7  75.4  76.6  77.2   (a bins 0-0.1 ... 0.9-1.0)
+  noise_5 :  55.6  66.0  75.0  82.2  87.5  91.2  93.6  95.2  96.1  96.5   (a bins 0-0.1 ... 0.9-1.0)
+
+V6 soft vote vs majority vote (same reads): mean % of message bits / exact recoveries
+                 raw   hard   soft  hard_exact  soft_exact   n
+cond     level                                                
+jpeg_90  0.005  82.6  100.0  100.0          25          25  25
+         0.020  82.6  100.0  100.0          24          25  25
+         0.050  82.5   99.6   99.9           0           0  25
+         0.100  83.0   97.2   98.5           0           0  25
+         0.200  82.8   92.2   93.9           0           0  25
+         0.300  82.3   84.1   89.3           0           0  25
+         0.450  82.7   83.7   85.2           0           0  25
+         0.600  82.7   82.8   82.8           0           0  25
+jpeg_95  0.005  90.4  100.0  100.0          25          25  25
+         0.020  90.2  100.0  100.0          25          25  25
+         0.050  89.6  100.0  100.0          13          25  25
+         0.100  90.3   99.2   99.9           0           0  25
+         0.200  90.2   97.2   98.5           0           0  25
+         0.300  90.6   91.3   96.7           0           0  25
+         0.450  90.2   90.6   92.4           0           0  25
+         0.600  90.1   90.2   90.2           0           0  25
+noise_10 0.005  68.1  100.0  100.0          25          25  25
+         0.020  68.0   97.8   98.8           0           0  25
+         0.050  68.0   90.6   92.6           0           0  25
+         0.100  68.0   82.1   84.9           0           0  25
+         0.200  68.1   76.1   77.3           0           0  25
+         0.300  67.8   68.4   72.5           0           0  25
+         0.450  67.9   68.8   69.6           0           0  25
+         0.600  68.0   68.0   68.0           0           0  25
+noise_5  0.005  86.7  100.0  100.0          25          25  25
+         0.020  86.3  100.0  100.0          25          25  25
+         0.050  86.1   99.8  100.0           1          18  25
+         0.100  86.3   98.1   99.3           0           0  25
+         0.200  86.6   95.1   96.3           0           0  25
+         0.300  86.3   86.6   92.8           0           0  25
+         0.450  86.3   86.7   88.5           0           0  25
+         0.600  86.3   86.3   86.4           0           0  25
+  overall exact recoveries: soft 218 vs majority 188 of 800 decodes

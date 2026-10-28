@@ -1,0 +1,8 @@
+{
+ "source": "F:\\scirep results\\10_fixes_2026-10-16\\embedder_v4\\DCT_Adaptive_v4.py",
+ "sha256": "ec14de808a0abafc09296eed8a2b8c3a13bea69b66b22682eb97fc0978a2954a",
+ "payload_margin": 0.25,
+ "header_margin": 0.5,
+ "payload_bits": 26208,
+ "created": "2026-10-17 13:07"
+}

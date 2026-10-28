@@ -1,0 +1,94 @@
+== 1. Write rule, worked example (Q = 10, mu = 0.15, so the margin is 1.5)
+[PASS] C = 23.7, bit 0 -> 23.5: q = 2 even, bit 0 matches, C is 0.2 above the admissible part [16.5, 23.5], pulled in by 0.2  (code gives 23.5000)
+[PASS] C = 21.0, bit 0 -> 21.0: q = 2 even, bit 0 matches, C already admissible, not moved  (code gives 21.0000)
+[PASS] C = 23.7, bit 1 -> 26.5: q = 2, bit 1 needs odd: q+1 = 3 gives 26.5 (move 2.8), q-1 = 1 gives 13.5 (move 10.2), nearer wins  (code gives 26.5000)
+[PASS] C = 16.2, bit 1 -> 13.5: q = 2, bit 1: q-1 gives 13.5 (move 2.7), q+1 gives 26.5 (move 10.3)  (code gives 13.5000)
+[PASS] C = -4.6, bit 1 -> -6.5: q = 0 even, bit 1: q-1 = -1 gives -6.5 (move 1.9), q+1 = 1 gives 6.5 (move 11.1)  (code gives -6.5000)
+  Same coefficients with the bin-centre rule (mu = 0.5): 23.7/bit0 -> 20 (move 3.7), 23.7/bit1 -> 30 (move 6.3)
+[PASS] bin-centre rule from the same function
+
+== 2. Expected distortion D_mu = (1/2 + mu)^3 Q^2 / 3 (Eq. distortion)
+  Derivation, matching parity: moves only if |x| > (1/2 - mu)Q, probability 2mu; move t ~ U[0, mu Q], E[t^2] = mu^2 Q^2 / 3
+  Derivation, parity change: s = Q/2 - |x| ~ U[0, Q/2], move s + mu Q, E = (2/Q) int_0^{Q/2} (s + mu Q)^2 ds = (2/3)[(1/2+mu)^3 - mu^3] Q^2
+  Average: (1/2)(2/3)mu^3 Q^2 + (1/2)(2/3)[(1/2+mu)^3 - mu^3] Q^2 = (1/2+mu)^3 Q^2 / 3
+[PASS] mu = 0.05: algebra of the two cases equals the closed form
+[PASS] mu = 0.1: algebra of the two cases equals the closed form
+[PASS] mu = 0.15: algebra of the two cases equals the closed form
+[PASS] mu = 0.25: algebra of the two cases equals the closed form
+[PASS] mu = 0.35: algebra of the two cases equals the closed form
+[PASS] mu = 0.5: algebra of the two cases equals the closed form
+[PASS] Monte Carlo through the embedder's own write function, mu = 0.05  (measured 0.0558, theory 0.0555)
+[PASS] Monte Carlo through the embedder's own write function, mu = 0.15  (measured 0.0921, theory 0.0915)
+[PASS] Monte Carlo through the embedder's own write function, mu = 0.25  (measured 0.1414, theory 0.1406)
+[PASS] Monte Carlo through the embedder's own write function, mu = 0.5  (measured 0.3345, theory 0.3333)
+  Bin-centre special case: Q^2/12 if parity matches, 7Q^2/12 if it changes, mean Q^2/3
+[PASS] Q^2/12 and 7Q^2/12 average to Q^2/3
+[PASS] G(mu) = -30 log10(1/2 + mu) at mu = 0.25 is 3.7 dB as quoted  (3.748 dB)
+[PASS] G(mu) = -30 log10(1/2 + mu) at mu = 0.15 is 5.6 dB as quoted  (5.613 dB)
+[PASS] G(mu) = -30 log10(1/2 + mu) at mu = 1e-09 is 9.0 dB as quoted  (9.031 dB)
+[PASS] G follows from 10 log10[(1/3) / ((1/2+mu)^3/3)]
+
+== 3. Parseval (orthonormal 8x8 DCT): coefficient change energy equals pixel change energy before rounding
+[PASS] sum of squared coefficient changes equals sum of squared pixel changes
+
+== 4. Tolerance |e| < mu Q (Eq. tolerance), worked example and Monte Carlo
+[PASS] written value 26.5 survives e = -1.49 (just below mu Q = 1.5)
+[PASS] and can flip at e = -1.51 (just above mu Q)
+[PASS] no parity change under any |e| < mu Q, mu = 0.05
+[PASS] no parity change under any |e| < mu Q, mu = 0.15
+[PASS] no parity change under any |e| < mu Q, mu = 0.3
+
+== 5. Rounding noise: each coefficient gets variance 1/12, sd 0.289; mu = 0.15 with Q >= 8 leaves >= 1.2, about 4 sd
+[PASS] measured sd of coefficient error after pixel rounding  (0.2885 vs 0.2887)
+[PASS] smallest margin 0.15 x 8 = 1.2 is about 4 sd  (4.16 sd)
+
+== 6. Scaled-table requantisation: parities survive if mu > s/2 (coefficient domain)
+[PASS] mu = 0.15, s = 0.2: guaranteed, all survive  (100.0%)
+  mu = 0.15, s = 0.4: not guaranteed, 100.0% survive (no claim made)
+[PASS] mu = 0.25, s = 0.4: guaranteed, all survive  (100.0%)
+[PASS] mu = 0.5, s = 0.6: guaranteed, all survive  (100.0%)
+  NOTE: the guarantee is in the coefficient domain. After requantisation the image is rounded to pixels again,
+  which adds sd 0.29 per coefficient. At mu = 0.15, s = 0.2 the margin left is (mu - s/2) Q = 0.05 Q (0.4 at Q = 8),
+  so pixel-domain survival can be well below 100% (the paper reports 93.5% bits at scale 0.2). The text should say so.
+
+== 7. Margin escalation mu_f = min(1/2, mu 2^(f-1)); bin centre after at most 1 + ceil(log2(1/(2 mu))) failures
+[PASS] mu = 0.15: bin centre reached at failure 3, paper says 3
+[PASS] mu = 0.25: bin centre reached at failure 2, paper says 2
+
+== 8. Adaptive K (Eq. K) and capacity (Eq. cap), checked against the code
+[PASS] mean eligible count 16.64 gives K = 24  (code gives 24)
+[PASS] mean eligible count 1.57 gives K = 1  (code gives 1)
+[PASS] mean eligible count 0.95 gives K = 24  (code gives 24)
+[PASS] mean eligible count 30.0 gives K = 38  (code gives 38)
+[PASS] mean eligible count 2.4 gives K = 3  (code gives 3)
+[PASS] non-header blocks of a 256x256 image = 32*32 - 2 = 1022
+[PASS] Table 1: mean K 23.92 gives 1022 x 24.92 = 25,468 bits = 0.389 bpp  (25468 bits)
+[PASS] Table 1: baseline all covers K 11.88 gives 13,163 bits = 0.201 bpp
+[PASS] 39 positions in M (Q >= 8, not DC)
+[PASS] matched payload: n = 19,680 bits gives K = ceil(n/1022) - 1 = 19
+[PASS] matched payload: n = 39,304 bits gives K = 38
+
+== 9. Header: 16 + 24 + 6 + 4 + 14 = 64 bits, CRC over 50 bits padded to 56
+[PASS] header round trip (n = 31,280, K = 30)
+[PASS] one flipped length bit is caught by the CRC
+
+== 10. Robust mode: n_s = 1022 x 39 = 39,858 slots; frame L = 8m + 32; copies = n_s / L
+[PASS] 39,858 slots
+[PASS] net 0.005 bpp: m = 41 bytes, 110.7 copies, quoted 110.7
+[PASS] net 0.02 bpp: m = 164 bytes, 29.7 copies, quoted 29.7
+[PASS] net 0.6 bpp: m = 4915 bytes, 1.0 copies, quoted 1.0
+
+== 11. Reliability weight: log odds = ((1-|f|)^2 - f^2) Q^2 / (2 sigma^2) = (1 - 2|f|) Q^2/(2 sigma^2) = a Q^2/(2 sigma^2)
+[PASS] identity at |f| = 0.0
+[PASS] identity at |f| = 0.1
+[PASS] identity at |f| = 0.33
+[PASS] identity at |f| = 0.49
+[PASS] Gaussian log odds at |f| = 0.05 equal a Q^2/(2 sigma^2)
+[PASS] Gaussian log odds at |f| = 0.25 equal a Q^2/(2 sigma^2)
+[PASS] Gaussian log odds at |f| = 0.45 equal a Q^2/(2 sigma^2)
+
+== 12. Payload units
+[PASS] 0.30 bpp of a 256x256 image = 19,661 bits (paper: 19,680 achieved)
+[PASS] 67-character alphabet: log2(67) = 6.07 bits per byte, as quoted
+
+SUMMARY: 0 failure(s)

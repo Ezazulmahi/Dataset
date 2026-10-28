@@ -1,0 +1,14 @@
+{
+ "epochs": 30,
+ "pairs": 16,
+ "lr": 0.0002,
+ "wd": 0.0002,
+ "model": "srnet_kv",
+ "seed": 2026,
+ "patience": 15,
+ "pretrained": true,
+ "data": "matched-suniward",
+ "fold": null,
+ "payload": 1.0,
+ "init": null
+}
